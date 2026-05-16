@@ -1,0 +1,11 @@
+print("Testando Semantica...");
+
+nome = "Leticia";
+idade = 22;
+
+usuario_ativo=true;
+
+// ERRO 2: Tentar usar uma variável que não existe no if
+if (usuario_ativo == true) {
+    print("Bem vindo!");
+}
