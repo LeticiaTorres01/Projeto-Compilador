@@ -1,7 +1,0 @@
-# Cache do Python
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Ficheiros gerados pelo nosso compilador
-saida.c
