@@ -1,0 +1,8 @@
+<Programa> ::= <ListaFuncoes> $
+<ListaFuncoes> ::= <Funcao> <ListaFuncoes>
+<ListaFuncoes> ::= \epsilon
+<Funcao> ::= funcao id ( <Parametros> ) <Bloco>
+<Bloco> ::= <ListaComandos>
+<Comando> ::= se <Expr> entao <ListaComandos> <RestoSe>
+<RestoSe> ::= senao <ListaComandos> fim_se
+<RestoSe> ::= fim_se
