@@ -1,8 +1,28 @@
-<Programa> ::= <ListaFuncoes> $
-<ListaFuncoes> ::= <Funcao> <ListaFuncoes>
-<ListaFuncoes> ::= \epsilon
-<Funcao> ::= funcao id ( <Parametros> ) <Bloco>
-<Bloco> ::= <ListaComandos>
-<Comando> ::= se <Expr> entao <ListaComandos> <RestoSe>
-<RestoSe> ::= senao <ListaComandos> fim_se
-<RestoSe> ::= fim_se
+1 - <Programa> ::= <ListaFuncoes> $
+2 - <ListaFuncoes> ::= <Funcao> <ListaFuncoes> | epsilon
+3 - <Funcao> ::= funcao id ( <Parametros> ) <Bloco>
+4 - <Parametros> ::= <Tipo> id <RestoParametros> | epsilon
+5 - <RestoParametros> ::= , <Tipo> id <RestoParametros> | epsilon
+6 - <Bloco> ::= inicio <ListaDeclaracoes> <ListaComandos> fim
+7 - <ListaDeclaracoes> ::= <Declaracao> <ListaDeclaracoes> | epsilon
+8 - <Declaracao> ::= <Tipo> id ;
+9 - <Tipo> ::= inteiro | real | caractere
+10 - <ListaComandos> ::= <Comando> <ListaComandos> | epsilon
+11 - <Comando> ::= se <Expr> entao <ListaComandos> <RestoSe>
+12 - <Comando> ::= id = <Expr> ;
+12.1 - <Comando> ::= enquanto <Expr> faca <ListaComandos> fim_enquanto
+12.2 - <Comando> ::= faca <ListaComandos> enquanto <Expr> ;
+12.3 - <Comando> ::= para id = <Expr> ate <Expr> faca <ListaComandos> fim_para
+13 - <RestoSe> ::= senao <ListaComandos> fim se | fim se
+14 - <Expr> ::= <ExprE> <RestoOu>
+15 - <RestoOu> ::= OU <ExprE> <RestoOu> | epsilon
+16 - <ExprE> ::= <ExprRelacional> <RestoE>
+17 - <RestoE> ::= E <ExprRelacional> <RestoE> | epsilon
+18 - <ExprRelacional> ::= <ExprAritmetica> <RestoRelacional>
+19 - <RestoRelacional> ::= <OpRel> <ExprAritmetica> | epsilon
+20 - <OpRel> ::= == | != | > | < | >= | <=
+21 - <ExprAritmetica> ::= <Termo> <RestoAritmetico>
+22 - <RestoAritmetico> ::= + <Termo> <RestoAritmetico> | - <Termo> <RestoAritmetico> | epsilon
+23 - <Termo> ::= <Fator> <RestoTermo>
+24 - <RestoTermo> ::= * <Fator> <RestoTermo> | / <Fator> <RestoTermo> | % <Fator> <RestoTermo> | epsilon
+25 - <Fator> ::= id | numero | ( <Expr> ) | NAO <Fator>
