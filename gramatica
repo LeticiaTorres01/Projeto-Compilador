@@ -1,28 +1,35 @@
 1 - <Programa> ::= <ListaFuncoes> $
 2 - <ListaFuncoes> ::= <Funcao> <ListaFuncoes> | epsilon
-3 - <Funcao> ::= funcao id ( <Parametros> ) <Bloco>
-4 - <Parametros> ::= <Tipo> id <RestoParametros> | epsilon
-5 - <RestoParametros> ::= , <Tipo> id <RestoParametros> | epsilon
-6 - <Bloco> ::= inicio <ListaDeclaracoes> <ListaComandos> fim
-7 - <ListaDeclaracoes> ::= <Declaracao> <ListaDeclaracoes> | epsilon
-8 - <Declaracao> ::= <Tipo> id ;
-9 - <Tipo> ::= inteiro | real | caractere
-10 - <ListaComandos> ::= <Comando> <ListaComandos> | epsilon
-11 - <Comando> ::= se <Expr> entao <ListaComandos> <RestoSe>
-12 - <Comando> ::= id = <Expr> ;
-12.1 - <Comando> ::= enquanto <Expr> faca <ListaComandos> fim_enquanto
-12.2 - <Comando> ::= faca <ListaComandos> enquanto <Expr> ;
-12.3 - <Comando> ::= para id = <Expr> ate <Expr> faca <ListaComandos> fim_para
-13 - <RestoSe> ::= senao <ListaComandos> fim se | fim se
-14 - <Expr> ::= <ExprE> <RestoOu>
-15 - <RestoOu> ::= OU <ExprE> <RestoOu> | epsilon
-16 - <ExprE> ::= <ExprRelacional> <RestoE>
-17 - <RestoE> ::= E <ExprRelacional> <RestoE> | epsilon
-18 - <ExprRelacional> ::= <ExprAritmetica> <RestoRelacional>
-19 - <RestoRelacional> ::= <OpRel> <ExprAritmetica> | epsilon
-20 - <OpRel> ::= == | != | > | < | >= | <=
-21 - <ExprAritmetica> ::= <Termo> <RestoAritmetico>
-22 - <RestoAritmetico> ::= + <Termo> <RestoAritmetico> | - <Termo> <RestoAritmetico> | epsilon
-23 - <Termo> ::= <Fator> <RestoTermo>
-24 - <RestoTermo> ::= * <Fator> <RestoTermo> | / <Fator> <RestoTermo> | % <Fator> <RestoTermo> | epsilon
-25 - <Fator> ::= id | numero | ( <Expr> ) | NAO <Fator>
+3 - <Funcao> ::= funcao <TipoRetorno> id ( <Parametros> ) <Bloco>
+4 - <TipoRetorno> ::= <Tipo> | vazio
+5 - <Parametros> ::= <Tipo> id <RestoParametros> | epsilon
+6 - <RestoParametros> ::= , <Tipo> id <RestoParametros> | epsilon
+7 - <Bloco> ::= inicio <ListaDeclaracoes> <ListaComandos> fim
+8 - <ListaDeclaracoes> ::= <Declaracao> <ListaDeclaracoes> | epsilon
+9 - <Declaracao> ::= <Tipo> id ;
+10 - <Tipo> ::= inteiro | real | caractere
+11 - <ListaComandos> ::= <Comando> <ListaComandos> | epsilon
+12 - <Comando> ::= se <Expr> entao <ListaComandos> <RestoSe>
+13 - <RestoSe> ::= senao <ListaComandos> fim_se | fim_se
+14 - <Comando> ::= enquanto <Expr> faca <ListaComandos> fim_enquanto
+15 - <Comando> ::= faca <ListaComandos> enquanto <Expr> ;
+16 - <Comando> ::= para id = <Expr> ate <Expr> faca <ListaComandos> fim_para
+17 - <Comando> ::= id <RestoIdComando>
+18 - <RestoIdComando> ::= = <Expr> ; | ( <ListaArgumentos> ) ;
+19 - <Comando> ::= retorne <RetornoOpcional> ;
+20 - <RetornoOpcional> ::= <Expr> | epsilon
+21 - <Expr> ::= <ExprE> <RestoOu>
+22 - <RestoOu> ::= OU <ExprE> <RestoOu> | epsilon
+23 - <ExprE> ::= <ExprRelacional> <RestoE>
+24 - <RestoE> ::= E <ExprRelacional> <RestoE> | epsilon
+25 - <ExprRelacional> ::= <ExprAritmetica> <RestoRelacional>
+26 - <RestoRelacional> ::= <OpRel> <ExprAritmetica> | epsilon
+27 - <OpRel> ::= == | != | > | < | >= | <=
+28 - <ExprAritmetica> ::= <Termo> <RestoAritmetico>
+29 - <RestoAritmetico> ::= + <Termo> <RestoAritmetico> | - <Termo> <RestoAritmetico> | epsilon
+30 - <Termo> ::= <Fator> <RestoTermo>
+31 - <RestoTermo> ::= * <Fator> <RestoTermo> | / <Fator> <RestoTermo> | % <Fator> <RestoTermo> | epsilon
+32 - <Fator> ::= id <RestoIdFator> | numero | ( <Expr> ) | NAO <Fator>
+33 - <RestoIdFator> ::= ( <ListaArgumentos> ) | epsilon
+34 - <ListaArgumentos> ::= <Expr> <RestoArgumentos> | epsilon
+35 - <RestoArgumentos> ::= , <Expr> <RestoArgumentos> | epsilon
