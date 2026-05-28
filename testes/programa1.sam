@@ -1,0 +1,67 @@
+// --- INÍCIO DO CÓDIGO SAM ---
+ADDSP 1 // Espaco para o RV da funcao principal
+JSR FUNCAO_principal
+STOP
+
+FUNCAO_calcular_fatorial:
+LINK
+ADDSP 1 // Aloca espaco para a variavel local 'resultado' (offset 2)
+ADDSP 1 // Aloca espaco para a variavel local 'i' (offset 3)
+PUSHIMM 1
+STOREOFF 2 // Guarda valor na variavel 'resultado'
+PUSHIMM 1
+STOREOFF 3 // Inicializa iterador do 'para'
+PARA_INICIO_1:
+PUSHOFF 3
+PUSHOFF -2 // Ler variavel 'n'
+GREATER
+JUMPC PARA_FIM_2
+PUSHOFF 2 // Ler variavel 'resultado'
+PUSHOFF 3 // Ler variavel 'i'
+TIMES
+STOREOFF 2 // Guarda valor na variavel 'resultado'
+PUSHOFF 3
+PUSHIMM 1
+ADD
+STOREOFF 3 // Incrementa iterador
+JUMP PARA_INICIO_1
+PARA_FIM_2:
+// --- RETORNO ---
+PUSHOFF 2 // Ler variavel 'resultado'
+STOREOFF -3 // Salva valor de retorno
+UNLINK
+RET
+UNLINK
+RET
+
+FUNCAO_principal:
+LINK
+ADDSP 1 // Aloca espaco para a variavel local 'x' (offset 2)
+ADDSP 1 // Aloca espaco para a variavel local 'res' (offset 3)
+PUSHIMM 5
+STOREOFF 2 // Guarda valor na variavel 'x'
+PUSHOFF 2 // Ler variavel 'x'
+PUSHIMM 0
+GREATER
+PUSHOFF 2 // Ler variavel 'x'
+PUSHIMM 10
+GREATER
+NOT
+AND
+JUMPC VERDADEIRO_3
+// --- INICIO SENAO ---
+PUSHIMM 0
+STOREOFF 3 // Guarda valor na variavel 'res'
+JUMP FIM_SE_4
+VERDADEIRO_3:
+// --- INICIO ENTAO ---
+// --- CHAMADA FUNCAO calcular_fatorial (EXPR) ---
+ADDSP 1 // RV
+PUSHOFF 2 // Ler variavel 'x'
+JSR FUNCAO_calcular_fatorial
+ADDSP -1 // Limpa argumentos (RV fica no topo)
+STOREOFF 3 // Guarda valor na variavel 'res'
+FIM_SE_4:
+UNLINK
+RET
+

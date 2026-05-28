@@ -1,0 +1,26 @@
+// Teste de programa correto em Portugol
+funcao inteiro calcular_fatorial(inteiro n) inicio
+    inteiro resultado ;
+    inteiro i ;
+    resultado = 1 ;
+    
+    /* Laço para calcular o fatorial
+       de 1 até n */
+    para i = 1 ate n faca
+        resultado = resultado * i ;
+    fim_para
+    
+    retorne resultado ;
+fim
+
+funcao vazio principal() inicio
+    inteiro x ;
+    inteiro res ;
+    x = 5 ;
+    
+    se x > 0 E x <= 10 entao
+        res = calcular_fatorial(x) ;
+    senao
+        res = 0 ;
+    fim_se
+fim
