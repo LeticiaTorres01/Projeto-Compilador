@@ -36,31 +36,10 @@ class AnalisadorLexico:
                 self.avancar()
                 continue
 
-            # 2. Comentários e operador de divisão '/'
+            # 2. Operador de divisão '/'
             if self.char_atual == '/':
                 self.avancar()
-                if self.char_atual == '/': # Comentário de linha única
-                    while self.char_atual is not None and self.char_atual != '\n':
-                        self.avancar()
-                    continue
-                elif self.char_atual == '*': # Comentário de múltiplas linhas
-                    linha_comentario = self.linha_atual
-                    self.avancar()
-                    fechou = False
-                    while self.char_atual is not None:
-                        if self.char_atual == '*':
-                            self.avancar()
-                            if self.char_atual == '/':
-                                self.avancar()
-                                fechou = True
-                                break
-                        else:
-                            self.avancar()
-                    if not fechou:
-                        raise SyntaxError(f"Erro Léxico [Linha {linha_comentario}]: Comentário de bloco não finalizado (esperado '*/')")
-                    continue
-                else:
-                    return Token('OP_ARITMETICO', '/', self.linha_atual)
+                return Token('OP_ARITMETICO', '/', self.linha_atual)
 
             # 3. Identificadores e Palavras Reservadas
             if self.char_atual.isalpha() or self.char_atual == '_':
