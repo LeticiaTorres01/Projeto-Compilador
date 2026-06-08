@@ -140,6 +140,15 @@ class GeradorCodigo:
         return codigo
 
     def visitar_UnOp(self, no):
+        if no.operador == '-':
+            is_float = (no.operando.tipo_dado == 'REAL')
+            codigo = "PUSHIMMF 0.0\n" if is_float else "PUSHIMM 0\n"
+            codigo += self.visitar(no.operando)
+            codigo += "SUBF\n" if is_float else "SUB\n"
+            return codigo
+        elif no.operador == '+':
+            return self.visitar(no.operando)
+            
         codigo = self.visitar(no.operando)
         if no.operador == 'NAO':
             codigo += "NOT\n"

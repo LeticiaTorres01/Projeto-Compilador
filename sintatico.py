@@ -232,7 +232,7 @@ class AnalisadorSintatico:
 
     # 20 - <RetornoOpcional> ::= <Expr> | epsilon
     def parse_retorno_opcional(self):
-        predict_expr = ['ID', 'NUMERO', 'CARACTERE_LITERAL', 'ABRE_PAR', 'NAO']
+        predict_expr = ['ID', 'NUMERO', 'CARACTERE_LITERAL', 'ABRE_PAR', 'NAO', 'OP_ARITMETICO']
         if self.token_atual.tipo in predict_expr:
             return self.parse_expr()
         else:
@@ -349,8 +349,14 @@ class AnalisadorSintatico:
             self.match('NAO')
             fator = self.parse_fator()
             return UnOp('NAO', fator, linha)
+        elif self.token_atual.tipo == 'OP_ARITMETICO' and self.token_atual.valor in ['+', '-']:
+            linha = self.token_atual.linha
+            op = self.token_atual.valor
+            self.match('OP_ARITMETICO')
+            fator = self.parse_fator()
+            return UnOp(op, fator, linha)
         else:
-            self.erro("Fator válido (ID, Número, Caractere, '(' ou 'NAO')")
+            self.erro("Fator válido (ID, Número, Caractere, '(', 'NAO', '+' ou '-')")
 
     # 33 - <RestoIdFator> ::= ( <ListaArgumentos> ) | epsilon
     def parse_resto_id_fator(self, id_name, linha):
@@ -364,7 +370,7 @@ class AnalisadorSintatico:
 
     # 34 - <ListaArgumentos> ::= <Expr> <RestoArgumentos> | epsilon
     def parse_lista_argumentos(self):
-        predict_expr = ['ID', 'NUMERO', 'CARACTERE_LITERAL', 'ABRE_PAR', 'NAO']
+        predict_expr = ['ID', 'NUMERO', 'CARACTERE_LITERAL', 'ABRE_PAR', 'NAO', 'OP_ARITMETICO']
         if self.token_atual.tipo in predict_expr:
             expr = self.parse_expr()
             resto = self.parse_resto_argumentos()

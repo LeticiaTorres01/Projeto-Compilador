@@ -14,21 +14,21 @@ FIRST(<ListaComandos>) = { se, enquanto, faca, para, id, retorne }
 FIRST(<Comando>) = { se, enquanto, faca, para, id, retorne }
 FIRST(<RestoSe>) = { senao, fim_se }
 FIRST(<RestoIdComando>) = { =, ( }
-FIRST(<RetornoOpcional>) = { id, numero, (, NAO }
-FIRST(<Expr>) = { id, numero, (, NAO }
-FIRST(<ExprE>) = { id, numero, (, NAO }
-FIRST(<ExprRelacional>) = { id, numero, (, NAO }
+FIRST(<RetornoOpcional>) = { id, numero, caractere_literal, (, NAO, +, - }
+FIRST(<Expr>) = { id, numero, caractere_literal, (, NAO, +, - }
+FIRST(<ExprE>) = { id, numero, caractere_literal, (, NAO, +, - }
+FIRST(<ExprRelacional>) = { id, numero, caractere_literal, (, NAO, +, - }
 FIRST(<RestoOu>) = { OU }
 FIRST(<RestoE>) = { E }
 FIRST(<RestoRelacional>) = { ==, !=, >, <, >=, <= }
 FIRST(<OpRel>) = { ==, !=, >, <, >=, <= }
-FIRST(<ExprAritmetica>) = { id, numero, (, NAO }
+FIRST(<ExprAritmetica>) = { id, numero, caractere_literal, (, NAO, +, - }
 FIRST(<RestoAritmetico>) = { +, - }
-FIRST(<Termo>) = { id, numero, (, NAO }
+FIRST(<Termo>) = { id, numero, caractere_literal, (, NAO, +, - }
 FIRST(<RestoTermo>) = { *, /, % }
-FIRST(<Fator>) = { id, numero, (, NAO }
+FIRST(<Fator>) = { id, numero, caractere_literal, (, NAO, +, - }
 FIRST(<RestoIdFator>) = { (, }
-FIRST(<ListaArgumentos>) = { id, numero, (, NAO }
+FIRST(<ListaArgumentos>) = { id, numero, caractere_literal, (, NAO, +, - }
 FIRST(<RestoArgumentos>) = { , }
 
 CONJUNTOS FOLLOW:
@@ -54,7 +54,7 @@ FOLLOW(<ExprE>) = { OU, entao, faca, ;, ate, ), , }
 FOLLOW(<RestoE>) = { OU, entao, faca, ;, ate, ), , }
 FOLLOW(<ExprRelacional>) = { E, OU, entao, faca, ;, ate, ), , }
 FOLLOW(<RestoRelacional>) = { E, OU, entao, faca, ;, ate, ), , }
-FOLLOW(<OpRel>) = { id, numero, (, NAO }
+FOLLOW(<OpRel>) = { id, numero, caractere_literal, (, NAO, +, - }
 FOLLOW(<ExprAritmetica>) = { ==, !=, >, <, >=, <=, E, OU, entao, faca, ;, ate, ), , }
 FOLLOW(<RestoAritmetico>) = { ==, !=, >, <, >=, <=, E, OU, entao, faca, ;, ate, ), , }
 FOLLOW(<Termo>) = { +, -, ==, !=, >, <, >=, <=, E, OU, entao, faca, ;, ate, ), , }
@@ -95,34 +95,37 @@ Regra 17: PREDICT( <Comando> ::= id <RestoIdComando> ) = { id }
 Regra 18: PREDICT( <RestoIdComando> ::= = <Expr> ; ) = { = }
 Regra 18: PREDICT( <RestoIdComando> ::= ( <ListaArgumentos> ) ; ) = { ( }
 Regra 19: PREDICT( <Comando> ::= retorne <RetornoOpcional> ; ) = { retorne }
-Regra 20: PREDICT( <RetornoOpcional> ::= <Expr> ) = { id, numero, (, NAO }
+Regra 20: PREDICT( <RetornoOpcional> ::= <Expr> ) = { id, numero, caractere_literal, (, NAO, +, - }
 Regra 20: PREDICT( <RetornoOpcional> ::= epsilon ) = { ; }
-Regra 21: PREDICT( <Expr> ::= <ExprE> <RestoOu> ) = { id, numero, (, NAO }
+Regra 21: PREDICT( <Expr> ::= <ExprE> <RestoOu> ) = { id, numero, caractere_literal, (, NAO, +, - }
 Regra 22: PREDICT( <RestoOu> ::= OU <ExprE> <RestoOu> ) = { OU }
 Regra 22: PREDICT( <RestoOu> ::= epsilon ) = { entao, faca, ;, ate, ), , }
-Regra 23: PREDICT( <ExprE> ::= <ExprRelacional> <RestoE> ) = { id, numero, (, NAO }
+Regra 23: PREDICT( <ExprE> ::= <ExprRelacional> <RestoE> ) = { id, numero, caractere_literal, (, NAO, +, - }
 Regra 24: PREDICT( <RestoE> ::= E <ExprRelacional> <RestoE> ) = { E }
 Regra 24: PREDICT( <RestoE> ::= epsilon ) = { OU, entao, faca, ;, ate, ), , }
-Regra 25: PREDICT( <ExprRelacional> ::= <ExprAritmetica> <RestoRelacional> ) = { id, numero, (, NAO }
+Regra 25: PREDICT( <ExprRelacional> ::= <ExprAritmetica> <RestoRelacional> ) = { id, numero, caractere_literal, (, NAO, +, - }
 Regra 26: PREDICT( <RestoRelacional> ::= <OpRel> <ExprAritmetica> ) = { ==, !=, >, <, >=, <= }
 Regra 26: PREDICT( <RestoRelacional> ::= epsilon ) = { E, OU, entao, faca, ;, ate, ), , }
 Regra 27: PREDICT( <OpRel> ::= == | != | > | < | >= | <= ) = { ==, !=, >, <, >=, <= }
-Regra 28: PREDICT( <ExprAritmetica> ::= <Termo> <RestoAritmetico> ) = { id, numero, (, NAO }
+Regra 28: PREDICT( <ExprAritmetica> ::= <Termo> <RestoAritmetico> ) = { id, numero, caractere_literal, (, NAO, +, - }
 Regra 29: PREDICT( <RestoAritmetico> ::= + <Termo> <RestoAritmetico> ) = { + }
 Regra 29: PREDICT( <RestoAritmetico> ::= - <Termo> <RestoAritmetico> ) = { - }
 Regra 29: PREDICT( <RestoAritmetico> ::= epsilon ) = { ==, !=, >, <, >=, <=, E, OU, entao, faca, ;, ate, ), , }
-Regra 30: PREDICT( <Termo> ::= <Fator> <RestoTermo> ) = { id, numero, (, NAO }
+Regra 30: PREDICT( <Termo> ::= <Fator> <RestoTermo> ) = { id, numero, caractere_literal, (, NAO, +, - }
 Regra 31: PREDICT( <RestoTermo> ::= * <Fator> <RestoTermo> ) = { * }
 Regra 31: PREDICT( <RestoTermo> ::= / <Fator> <RestoTermo> ) = { / }
 Regra 31: PREDICT( <RestoTermo> ::= % <Fator> <RestoTermo> ) = { % }
 Regra 31: PREDICT( <RestoTermo> ::= epsilon ) = { +, -, ==, !=, >, <, >=, <=, E, OU, entao, faca, ;, ate, ), , }
 Regra 32: PREDICT( <Fator> ::= id <RestoIdFator> ) = { id }
 Regra 32: PREDICT( <Fator> ::= numero ) = { numero }
+Regra 32: PREDICT( <Fator> ::= caractere_literal ) = { caractere_literal }
 Regra 32: PREDICT( <Fator> ::= ( <Expr> ) ) = { ( }
 Regra 32: PREDICT( <Fator> ::= NAO <Fator> ) = { NAO }
+Regra 32: PREDICT( <Fator> ::= - <Fator> ) = { - }
+Regra 32: PREDICT( <Fator> ::= + <Fator> ) = { + }
 Regra 33: PREDICT( <RestoIdFator> ::= ( <ListaArgumentos> ) ) = { ( }
 Regra 33: PREDICT( <RestoIdFator> ::= epsilon ) = { *, /, %, +, -, ==, !=, >, <, >=, <=, E, OU, entao, faca, ;, ate, ), , }
-Regra 34: PREDICT( <ListaArgumentos> ::= <Expr> <RestoArgumentos> ) = { id, numero, (, NAO }
+Regra 34: PREDICT( <ListaArgumentos> ::= <Expr> <RestoArgumentos> ) = { id, numero, caractere_literal, (, NAO, +, - }
 Regra 34: PREDICT( <ListaArgumentos> ::= epsilon ) = { ) }
 Regra 35: PREDICT( <RestoArgumentos> ::= , <Expr> <RestoArgumentos> ) = { , }
 Regra 35: PREDICT( <RestoArgumentos> ::= epsilon ) = { ) }

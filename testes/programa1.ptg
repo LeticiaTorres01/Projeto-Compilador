@@ -2,10 +2,10 @@ funcao vazio principal() inicio
   inteiro x;
   inteiro y;
 
-  imprima(2 + 2);
+  imprima(-2 + 2);
 
-  x = 4;
-  y = 4;
+  x = 4.14;
+  y = - 4;
 
   imprima(x + y + 4);
 

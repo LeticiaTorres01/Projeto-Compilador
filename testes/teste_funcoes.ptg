@@ -1,0 +1,12 @@
+funcao inteiro somar(inteiro a, inteiro b)
+inicio
+    retorne a + b;
+fim
+
+funcao vazio principal()
+inicio
+    inteiro resultado;
+    resultado = somar(10, 20);
+    imprima(resultado); // Deve imprimir 30
+fim
+$

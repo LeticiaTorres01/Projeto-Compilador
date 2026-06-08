@@ -1,0 +1,11 @@
+Perguntas para o gepeto:
+
+Quando ele faz a indentificação do ID? (começar com letra minuscula pode ter numero e '_'.)
+
+Aprendizados:
+
+Lexica: Quebra tudo em token, se achar alguma coisa que não se traduz em token gera erro lexico.
+
+Sintatica: Verifica a ordem e estrutura/gramática, não se importa com o sentido.
+
+

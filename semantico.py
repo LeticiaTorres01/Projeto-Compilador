@@ -55,6 +55,11 @@ class AnalisadorSemantico:
         for func in no.funcoes:
             # O tipo de retorno 'vazio' ficará como 'VAZIO' ou o respectivo tipo.
             self.tabela.declarar(func.nome, func.tipo_retorno.upper(), func.linha)
+            
+        # Verifica se a função 'principal' existe no escopo global
+        if 'principal' not in self.tabela.escopos[0]:
+            raise Exception("Erro Semântico: A função obrigatória 'principal' não foi declarada no programa.")
+            
         # Depois visitamos cada função para validar o seu conteúdo
         self.visitar(no.funcoes)
 

@@ -1,0 +1,22 @@
+funcao vazio principal()
+inicio
+    inteiro x;
+    real y;
+    real z;
+
+    x = 10;
+    y = 2.5;
+
+    // Testando conversao de Inteiro para Real
+    z = x * y;
+    imprima(z); // Deve ser 25.0
+
+    // Testando operador unario negativo
+    x = -5 + 10;
+    imprima(x); // Deve ser 5
+
+    // Testando resto e precedencia
+    x = 10 % 3 + 2 * 4;
+    imprima(x); // Deve ser 1 + 8 = 9
+fim
+$
