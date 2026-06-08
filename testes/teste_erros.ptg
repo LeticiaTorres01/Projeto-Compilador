@@ -2,10 +2,7 @@ funcao vazio teste()
 inicio
     inteiro x;
     
-    // Erro 1: Variavel y nao declarada (Semantico)
     y = 5;
 
-    // Erro 2: Atribuindo Real a Inteiro (Semantico)
     x = 3.14;
 fim
-$

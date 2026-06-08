@@ -7,6 +7,5 @@ funcao vazio principal()
 inicio
     inteiro resultado;
     resultado = somar(10, 20);
-    imprima(resultado); // Deve imprimir 30
+    imprima(resultado);
 fim
-$

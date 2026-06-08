@@ -1,23 +1,20 @@
 funcao vazio principal()
 inicio
     inteiro contador;
+    inteiro i;
 
-    // 1. Laco Enquanto (Teste no inicio)
     contador = 0;
     enquanto contador < 3 faca
         imprima(contador);
         contador = contador + 1;
     fim_enquanto
 
-    // 2. Laco Faca-Enquanto (Teste no fim)
     faca
         imprima(contador);
         contador = contador - 1;
     fim_faca enquanto contador > 0 ;
 
-    // 3. Laco Para (Contador)
     para i = 1 ate 3 faca
         imprima(i);
     fim_para
 fim
-$
