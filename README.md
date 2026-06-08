@@ -2,7 +2,7 @@
 
 Este projeto implementa um compilador completo construído do zero em Python (sem o uso de geradores automáticos como Lex ou Yacc). Ele passa por todas as fases da compilação: **Léxica, Sintática, Semântica e Geração de Código**, gerando um arquivo de linguagem Assembly projetado para uma Máquina de Pilha (SAM).
 
-## 🚀 Capacidades da Linguagem
+## Capacidades da Linguagem
 
 A linguagem segue o **Paradigma Procedural**, sendo fortemente tipada e com suporte nativo a operações complexas.
 
@@ -29,7 +29,7 @@ Suporta criação de métodos locais, passagem de parâmetros e retornos utiliza
 
 ---
 
-## 🛠️ Como Executar o Compilador
+## Como Executar o Compilador
 
 **Pré-requisitos:** Python 3 instalado.
 
@@ -49,7 +49,7 @@ O arquivo `.sam` final será salvo no mesmo diretório do arquivo original.
 
 ---
 
-## 📖 Exemplo de Código
+##  Exemplo de Código
 
 ```text
 funcao vazio principal()
@@ -72,5 +72,4 @@ inicio
         imprima(i);
     fim_para
 fim
-$
 ```

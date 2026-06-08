@@ -4,9 +4,10 @@ funcao vazio principal() inicio
 
   imprima(-2 + 2);
 
-  x = 4.14;
+  x = 4;
   y = - 4;
 
   imprima(x + y + 4);
 
   fim
+$
