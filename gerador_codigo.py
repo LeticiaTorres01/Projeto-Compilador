@@ -89,7 +89,12 @@ class GeradorCodigo:
         return f"PUSHOFF {offset}\n"
 
     def visitar_Numero(self, no):
+        if no.tipo_dado == 'REAL':
+            return f"PUSHIMMF {no.valor}\n"
         return f"PUSHIMM {no.valor}\n"
+
+    def visitar_Caractere(self, no):
+        return f"PUSHIMMCH '{no.valor}'\n"
 
     def visitar_Atribuicao(self, no):
         codigo = self.visitar(no.expressao)
@@ -98,20 +103,38 @@ class GeradorCodigo:
         return codigo
 
     def visitar_BinOp(self, no):
+        # Visita lado esquerdo
         codigo = self.visitar(no.esquerda)
+        # Se a operação global for REAL, mas este operando for INTEIRO, converte-o
+        if no.tipo_dado == 'REAL' and no.esquerda.tipo_dado == 'INTEIRO':
+            codigo += "ITOF\n"
+            
+        # Visita lado direito
         codigo += self.visitar(no.direita)
+        # Se a operação global for REAL, mas este operando for INTEIRO, converte-o
+        if no.tipo_dado == 'REAL' and no.direita.tipo_dado == 'INTEIRO':
+            codigo += "ITOF\n"
+            
         op = no.operador
-        if op == '+': codigo += "ADD\n"
-        elif op == '-': codigo += "SUB\n"
-        elif op == '*': codigo += "TIMES\n"
-        elif op == '/': codigo += "DIV\n"
-        elif op == '%': codigo += "MOD\n"
-        elif op == '>': codigo += "GREATER\n"
-        elif op == '<': codigo += "LESS\n"
-        elif op == '==': codigo += "EQUAL\n"
-        elif op == '>=': codigo += "LESS\nNOT\n"
-        elif op == '<=': codigo += "GREATER\nNOT\n"
-        elif op == '!=': codigo += "EQUAL\nNOT\n"
+        is_float = (no.tipo_dado == 'REAL')
+
+        if op == '+': codigo += "ADDF\n" if is_float else "ADD\n"
+        elif op == '-': codigo += "SUBF\n" if is_float else "SUB\n"
+        elif op == '*': codigo += "TIMESF\n" if is_float else "TIMES\n"
+        elif op == '/': codigo += "DIVF\n" if is_float else "DIV\n"
+        elif op == '%': codigo += "MOD\n" # MOD não é para floats
+        elif op == '>': codigo += "CMPF\nISPOS\n" if is_float else "GREATER\n"
+        elif op == '<': codigo += "CMPF\nISNEG\n" if is_float else "LESS\n"
+        elif op == '==': codigo += "CMPF\nISNIL\n" if is_float else "EQUAL\n"
+        elif op == '>=': 
+            if is_float: codigo += "CMPF\nISNEG\nNOT\n"
+            else: codigo += "LESS\nNOT\n"
+        elif op == '<=': 
+            if is_float: codigo += "CMPF\nISPOS\nNOT\n"
+            else: codigo += "GREATER\nNOT\n"
+        elif op == '!=': 
+            if is_float: codigo += "CMPF\nISNIL\nNOT\n"
+            else: codigo += "EQUAL\nNOT\n"
         elif op == 'E': codigo += "AND\n"
         elif op == 'OU': codigo += "OR\n"
         return codigo
@@ -209,4 +232,15 @@ class GeradorCodigo:
         if self.funcao_atual_num_locais > 0:
             codigo += f"ADDSP -{self.funcao_atual_num_locais}\n"
         codigo += "JUMPIND\n"
+        return codigo
+
+    def visitar_Imprima(self, no):
+        codigo = self.visitar(no.expressao)
+        tipo = no.expressao.tipo_dado
+        if tipo == 'REAL':
+            codigo += "WRITEF\n"
+        elif tipo == 'CARACTERE':
+            codigo += "WRITECH\n"
+        else:
+            codigo += "WRITE\n"
         return codigo

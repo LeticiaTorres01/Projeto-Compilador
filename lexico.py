@@ -18,9 +18,9 @@ class AnalisadorLexico:
             'funcao': 'FUNCAO', 'vazio': 'VAZIO', 'inicio': 'INICIO', 'fim': 'FIM',
             'inteiro': 'INTEIRO', 'real': 'REAL', 'caractere': 'CARACTERE',
             'se': 'SE', 'entao': 'ENTAO', 'senao': 'SENAO', 'fim_se': 'FIM_SE',
-            'enquanto': 'ENQUANTO', 'faca': 'FACA', 'fim_enquanto': 'FIM_ENQUANTO',
+            'enquanto': 'ENQUANTO', 'faca': 'FACA', 'fim_faca': 'FIM_FACA', 'fim_enquanto': 'FIM_ENQUANTO',
             'para': 'PARA', 'ate': 'ATE', 'fim_para': 'FIM_PARA',
-            'retorne': 'RETORNE', 'OU': 'OU', 'E': 'E', 'NAO': 'NAO'
+            'retorne': 'RETORNE', 'imprima': 'IMPRIMA', 'OU': 'OU', 'E': 'E', 'NAO': 'NAO'
         }
 
     def avancar(self):
@@ -40,6 +40,19 @@ class AnalisadorLexico:
             if self.char_atual == '/':
                 self.avancar()
                 return Token('OP_ARITMETICO', '/', self.linha_atual)
+
+            # 2.5 Caracteres Literais
+            if self.char_atual == "'":
+                linha_inicio = self.linha_atual
+                self.avancar()
+                if self.char_atual is None:
+                    raise SyntaxError(f"Erro Léxico [Linha {linha_inicio}]: Caractere literal não finalizado.")
+                char_val = self.char_atual
+                self.avancar()
+                if self.char_atual != "'":
+                    raise SyntaxError(f"Erro Léxico [Linha {linha_inicio}]: Caractere literal mal formatado (esperado ' no fechamento).")
+                self.avancar()
+                return Token('CARACTERE_LITERAL', char_val, linha_inicio)
 
             # 3. Identificadores e Palavras Reservadas
             if self.char_atual.isalpha() or self.char_atual == '_':

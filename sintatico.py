@@ -1,8 +1,8 @@
 from lexico import Token, AnalisadorLexico
 from ast_nodes import (
     Programa, Funcao, Parametro, Bloco, Declaracao,
-    Se, Enquanto, FacaEnquanto, Para, Atribuicao, ChamadaFuncaoCmd, Retorne,
-    BinOp, UnOp, Numero, Id, ChamadaFuncaoExpr
+    Se, Enquanto, FacaEnquanto, Para, Atribuicao, ChamadaFuncaoCmd, Retorne, Imprima,
+    BinOp, UnOp, Numero, Id, ChamadaFuncaoExpr, Caractere
 )
 
 class AnalisadorSintatico:
@@ -124,7 +124,7 @@ class AnalisadorSintatico:
 
     # 11 - <ListaComandos> ::= <Comando> <ListaComandos> | epsilon
     def parse_lista_comandos(self):
-        predict_comando = ['SE', 'ENQUANTO', 'FACA', 'PARA', 'ID', 'RETORNE']
+        predict_comando = ['SE', 'ENQUANTO', 'FACA', 'PARA', 'ID', 'RETORNE', 'IMPRIMA']
         if self.token_atual.tipo in predict_comando:
             comando = self.parse_comando()
             resto = self.parse_lista_comandos()
@@ -156,6 +156,7 @@ class AnalisadorSintatico:
             linha = self.token_atual.linha
             self.match('FACA')
             comandos = self.parse_lista_comandos()
+            self.match('FIM_FACA')
             self.match('ENQUANTO')
             condicao = self.parse_expr()
             self.match('PONTO_VIRGULA')
@@ -187,6 +188,16 @@ class AnalisadorSintatico:
             expressao = self.parse_retorno_opcional()
             self.match('PONTO_VIRGULA')
             return Retorne(expressao, linha)
+
+        elif self.token_atual.tipo == 'IMPRIMA':
+            linha = self.token_atual.linha
+            self.match('IMPRIMA')
+            self.match('ABRE_PAR')
+            expressao = self.parse_expr()
+            self.match('FECHA_PAR')
+            self.match('PONTO_VIRGULA')
+            return Imprima(expressao, linha)
+            
         else:
             self.erro("Comando válido")
 
@@ -221,7 +232,7 @@ class AnalisadorSintatico:
 
     # 20 - <RetornoOpcional> ::= <Expr> | epsilon
     def parse_retorno_opcional(self):
-        predict_expr = ['ID', 'NUMERO', 'ABRE_PAR', 'NAO']
+        predict_expr = ['ID', 'NUMERO', 'CARACTERE_LITERAL', 'ABRE_PAR', 'NAO']
         if self.token_atual.tipo in predict_expr:
             return self.parse_expr()
         else:
@@ -311,7 +322,7 @@ class AnalisadorSintatico:
         else:
             return lhs
 
-    # 32 - <Fator> ::= id <RestoIdFator> | numero | ( <Expr> ) | NAO <Fator>
+    # 32 - <Fator> ::= id <RestoIdFator> | numero | caractere_literal | ( <Expr> ) | NAO <Fator>
     def parse_fator(self):
         if self.token_atual.tipo == 'ID':
             linha = self.token_atual.linha
@@ -323,6 +334,11 @@ class AnalisadorSintatico:
             val = self.token_atual.valor
             self.match('NUMERO')
             return Numero(val, linha)
+        elif self.token_atual.tipo == 'CARACTERE_LITERAL':
+            linha = self.token_atual.linha
+            val = self.token_atual.valor
+            self.match('CARACTERE_LITERAL')
+            return Caractere(val, linha)
         elif self.token_atual.tipo == 'ABRE_PAR':
             self.match('ABRE_PAR')
             expr = self.parse_expr()
@@ -334,7 +350,7 @@ class AnalisadorSintatico:
             fator = self.parse_fator()
             return UnOp('NAO', fator, linha)
         else:
-            self.erro("Fator válido (ID, Número, '(' ou 'NAO')")
+            self.erro("Fator válido (ID, Número, Caractere, '(' ou 'NAO')")
 
     # 33 - <RestoIdFator> ::= ( <ListaArgumentos> ) | epsilon
     def parse_resto_id_fator(self, id_name, linha):
@@ -348,7 +364,7 @@ class AnalisadorSintatico:
 
     # 34 - <ListaArgumentos> ::= <Expr> <RestoArgumentos> | epsilon
     def parse_lista_argumentos(self):
-        predict_expr = ['ID', 'NUMERO', 'ABRE_PAR', 'NAO']
+        predict_expr = ['ID', 'NUMERO', 'CARACTERE_LITERAL', 'ABRE_PAR', 'NAO']
         if self.token_atual.tipo in predict_expr:
             expr = self.parse_expr()
             resto = self.parse_resto_argumentos()

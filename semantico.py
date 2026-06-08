@@ -126,6 +126,11 @@ class AnalisadorSemantico:
         if no.expressao:
             self.visitar(no.expressao)
 
+    def visitar_Imprima(self, no):
+        tipo_expr = self.visitar(no.expressao)
+        if tipo_expr == 'VAZIO':
+            raise Exception(f"Erro Semântico [Linha {no.linha}]: Comando 'imprima' não pode exibir um tipo 'vazio'.")
+
     def visitar_BinOp(self, no):
         tipo_esq = self.visitar(no.esquerda)
         tipo_dir = self.visitar(no.direita)
@@ -134,29 +139,41 @@ class AnalisadorSemantico:
         
         # Operadores Relacionais e Lógicos resultam num valor booleano, que na nossa gramática pode ser tratado como INTEIRO
         if op in ['==', '!=', '>', '<', '>=', '<=', 'E', 'OU']:
+            no.tipo_dado = 'INTEIRO'
             return 'INTEIRO'
             
         # Regras de Matemática
         if tipo_esq == 'INTEIRO' and tipo_dir == 'INTEIRO':
+            no.tipo_dado = 'INTEIRO'
             return 'INTEIRO'
         elif tipo_esq == 'REAL' or tipo_dir == 'REAL':
             if tipo_esq in ['INTEIRO', 'REAL'] and tipo_dir in ['INTEIRO', 'REAL']:
+                no.tipo_dado = 'REAL'
                 return 'REAL'
         
         raise Exception(f"Erro Semântico [Linha {linha}]: Operação '{op}' inválida entre '{tipo_esq}' e '{tipo_dir}'.")
 
     def visitar_UnOp(self, no):
-        return self.visitar(no.operando)
+        no.tipo_dado = self.visitar(no.operando)
+        return no.tipo_dado
 
     def visitar_Numero(self, no):
         if '.' in no.valor:
+            no.tipo_dado = 'REAL'
             return 'REAL'
+        no.tipo_dado = 'INTEIRO'
         return 'INTEIRO'
 
+    def visitar_Caractere(self, no):
+        no.tipo_dado = 'CARACTERE'
+        return 'CARACTERE'
+
     def visitar_Id(self, no):
-        return self.tabela.buscar(no.nome, no.linha)
+        no.tipo_dado = self.tabela.buscar(no.nome, no.linha)
+        return no.tipo_dado
 
     def visitar_ChamadaFuncaoExpr(self, no):
         tipo_retorno = self.tabela.buscar(no.nome, no.linha)
         self.visitar(no.argumentos)
+        no.tipo_dado = tipo_retorno
         return tipo_retorno

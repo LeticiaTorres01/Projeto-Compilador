@@ -1,23 +1,12 @@
-funcao inteiro calcular_fatorial(inteiro n) inicio
-    inteiro resultado ;
-    inteiro i ;
-    resultado = 1 ;
-    
-    para i = 1 ate n faca
-        resultado = resultado * i ;
-    fim_para
-    
-    retorne resultado ;
-fim
-
 funcao vazio principal() inicio
-    inteiro x ;
-    inteiro res ;
-    x = 5 ;
-    
-    se x > 0 E x <= 10 entao
-        res = calcular_fatorial(x) ;
-    senao
-        res = 0 ;
-    fim_se
-fim
+  inteiro x;
+  inteiro y;
+
+  imprima(2 + 2);
+
+  x = 4;
+  y = 4;
+
+  imprima(x + y + 4);
+
+  fim

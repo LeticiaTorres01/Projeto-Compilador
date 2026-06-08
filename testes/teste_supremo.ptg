@@ -1,0 +1,51 @@
+funcao inteiro resto_divisao(inteiro a, inteiro b) inicio
+    retorne a % b ;
+fim
+
+funcao real calcula_juros(real saldo, real taxa) inicio
+    retorne saldo + (saldo * taxa) ;
+fim
+
+funcao vazio verificar_caractere(caractere c) inicio
+    se c == 'A' entao
+        imprima('S') ; 
+    senao
+        imprima('N') ; 
+    fim_se
+fim
+
+funcao vazio principal() inicio
+    inteiro iterador ;
+    inteiro limite ;
+    real valor_bancario ;
+    caractere status ;
+
+    limite = 5 ;
+    valor_bancario = 100.5 ;
+    status = 'A' ;
+
+    verificar_caractere(status) ;
+
+    valor_bancario = calcula_juros(valor_bancario, 0.1) ;
+    imprima(valor_bancario) ;
+
+    iterador = (limite - 1) / 2 ; 
+
+    iterador = 1 ;
+    enquanto iterador <= limite E NAO (iterador == 3) faca
+        imprima(iterador) ;
+        iterador = iterador + 1 ;
+    fim_enquanto
+
+    faca
+        imprima(iterador) ;
+        iterador = iterador + 1 ;
+    fim_faca
+    enquanto iterador <= limite ;
+
+    para iterador = 1 ate 4 faca
+        se resto_divisao(iterador, 2) != 0 OU iterador < 0 entao
+            imprima(iterador) ; 
+        fim_se
+    fim_para
+fim

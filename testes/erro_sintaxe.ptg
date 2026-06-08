@@ -1,4 +1,3 @@
-// Código com erro de sintaxe de propósito (faltando ; no final da declaração de x)
 funcao vazio erro_aqui() inicio
     inteiro x 
     x = 5 ;

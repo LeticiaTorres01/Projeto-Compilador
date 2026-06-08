@@ -181,11 +181,25 @@ class Retorne(Comando):
             d["expressao"] = self.expressao.to_dict()
         return d
 
+class Imprima(Comando):
+    def __init__(self, expressao, linha):
+        self.expressao = expressao    # Expr
+        self.linha = linha
+
+    def to_dict(self):
+        return {
+            "node": "Imprima",
+            "expressao": self.expressao.to_dict(),
+            "linha": self.linha
+        }
+
 class Expr(ASTNode):
-    pass
+    def __init__(self):
+        self.tipo_dado = None # O Analisador Semântico preencherá este campo (ex: 'INTEIRO', 'REAL', 'CARACTERE')
 
 class BinOp(Expr):
     def __init__(self, esquerda, operador, direita, linha):
+        super().__init__()
         self.esquerda = esquerda      # Expr
         self.operador = operador      # str
         self.direita = direita        # Expr
@@ -202,6 +216,7 @@ class BinOp(Expr):
 
 class UnOp(Expr):
     def __init__(self, operador, operando, linha):
+        super().__init__()
         self.operador = operador      # str
         self.operando = operando      # Expr
         self.linha = linha
@@ -216,6 +231,7 @@ class UnOp(Expr):
 
 class Numero(Expr):
     def __init__(self, valor, linha):
+        super().__init__()
         self.valor = valor            # str (ou int/float)
         self.linha = linha
 
@@ -223,11 +239,27 @@ class Numero(Expr):
         return {
             "node": "Numero",
             "valor": self.valor,
+            "tipo_dado": self.tipo_dado,
+            "linha": self.linha
+        }
+
+class Caractere(Expr):
+    def __init__(self, valor, linha):
+        super().__init__()
+        self.valor = valor            # str (1 caractere)
+        self.linha = linha
+
+    def to_dict(self):
+        return {
+            "node": "Caractere",
+            "valor": self.valor,
+            "tipo_dado": self.tipo_dado,
             "linha": self.linha
         }
 
 class Id(Expr):
     def __init__(self, nome, linha):
+        super().__init__()
         self.nome = nome              # str
         self.linha = linha
 
@@ -240,6 +272,7 @@ class Id(Expr):
 
 class ChamadaFuncaoExpr(Expr):
     def __init__(self, nome, argumentos, linha):
+        super().__init__()
         self.nome = nome              # str
         self.argumentos = argumentos  # Lista de Expr
         self.linha = linha

@@ -1,10 +1,7 @@
-// Arquivo com erro semântico intencional
 funcao vazio principal() inicio
     inteiro contador ;
     
-    // ERRO SEMÂNTICO: Variável não declarada
     z = 10 ;
     
-    // ERRO SEMÂNTICO: Atribuindo um REAL a uma variável do tipo INTEIRO
     contador = 3.14 ;
 fim

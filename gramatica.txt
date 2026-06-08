@@ -12,24 +12,25 @@
 12 - <Comando> ::= se <Expr> entao <ListaComandos> <RestoSe>
 13 - <RestoSe> ::= senao <ListaComandos> fim_se | fim_se
 14 - <Comando> ::= enquanto <Expr> faca <ListaComandos> fim_enquanto
-15 - <Comando> ::= faca <ListaComandos> enquanto <Expr> ;
+15 - <Comando> ::= faca <ListaComandos> fim_faca enquanto <Expr> ;
 16 - <Comando> ::= para id = <Expr> ate <Expr> faca <ListaComandos> fim_para
 17 - <Comando> ::= id <RestoIdComando>
 18 - <RestoIdComando> ::= = <Expr> ; | ( <ListaArgumentos> ) ;
 19 - <Comando> ::= retorne <RetornoOpcional> ;
-20 - <RetornoOpcional> ::= <Expr> | epsilon
-21 - <Expr> ::= <ExprE> <RestoOu>
-22 - <RestoOu> ::= OU <ExprE> <RestoOu> | epsilon
-23 - <ExprE> ::= <ExprRelacional> <RestoE>
-24 - <RestoE> ::= E <ExprRelacional> <RestoE> | epsilon
-25 - <ExprRelacional> ::= <ExprAritmetica> <RestoRelacional>
-26 - <RestoRelacional> ::= <OpRel> <ExprAritmetica> | epsilon
-27 - <OpRel> ::= == | != | > | < | >= | <=
-28 - <ExprAritmetica> ::= <Termo> <RestoAritmetico>
-29 - <RestoAritmetico> ::= + <Termo> <RestoAritmetico> | - <Termo> <RestoAritmetico> | epsilon
-30 - <Termo> ::= <Fator> <RestoTermo>
-31 - <RestoTermo> ::= * <Fator> <RestoTermo> | / <Fator> <RestoTermo> | % <Fator> <RestoTermo> | epsilon
-32 - <Fator> ::= id <RestoIdFator> | numero | ( <Expr> ) | NAO <Fator>
-33 - <RestoIdFator> ::= ( <ListaArgumentos> ) | epsilon
-34 - <ListaArgumentos> ::= <Expr> <RestoArgumentos> | epsilon
-35 - <RestoArgumentos> ::= , <Expr> <RestoArgumentos> | epsilon
+20 - <Comando> ::= imprima ( <Expr> ) ;
+21 - <RetornoOpcional> ::= <Expr> | epsilon
+22 - <Expr> ::= <ExprE> <RestoOu>
+23 - <RestoOu> ::= OU <ExprE> <RestoOu> | epsilon
+24 - <ExprE> ::= <ExprRelacional> <RestoE>
+25 - <RestoE> ::= E <ExprRelacional> <RestoE> | epsilon
+26 - <ExprRelacional> ::= <ExprAritmetica> <RestoRelacional>
+27 - <RestoRelacional> ::= <OpRel> <ExprAritmetica> | epsilon
+28 - <OpRel> ::= == | != | > | < | >= | <=
+29 - <ExprAritmetica> ::= <Termo> <RestoAritmetico>
+30 - <RestoAritmetico> ::= + <Termo> <RestoAritmetico> | - <Termo> <RestoAritmetico> | epsilon
+31 - <Termo> ::= <Fator> <RestoTermo>
+32 - <RestoTermo> ::= * <Fator> <RestoTermo> | / <Fator> <RestoTermo> | % <Fator> <RestoTermo> | epsilon
+33 - <Fator> ::= id <RestoIdFator> | numero | caractere_literal | ( <Expr> ) | NAO <Fator> | - <Fator> | + <Fator>
+34 - <RestoIdFator> ::= ( <ListaArgumentos> ) | epsilon
+35 - <ListaArgumentos> ::= <Expr> <RestoArgumentos> | epsilon
+36 - <RestoArgumentos> ::= , <Expr> <RestoArgumentos> | epsilon
